@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -78,13 +77,18 @@ public class GarageServiceImpl implements GarageService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<GarageResponseDTO> search(GarageSearchDTO criteria, int page, int size, List<String> sortFields, List<String> sortDirections) {
+    public Page<GarageResponseDTO> search(GarageSearchDTO criteria) {
         Specification<Garage> specification = GarageSpecificationUtil.byCriteria(
                 criteria.getName(),
                 criteria.getCity(),
-                criteria.getAvailableBrand());
+                criteria.getAvailableBrand()
+        );
 
-        Pageable pageable = PageableUtil.buildPageable(page, size, sortFields, sortDirections);
+        Pageable pageable = PageableUtil.buildPageable(
+                criteria.getPage(),
+                criteria.getSize(),
+                criteria.getSort()
+        );
 
         return garageRepository.findAll(specification, pageable).map(garageMapper::toResponseDTO);
     }
