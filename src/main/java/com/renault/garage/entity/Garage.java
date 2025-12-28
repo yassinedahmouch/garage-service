@@ -1,10 +1,6 @@
 package com.renault.garage.entity;
 
-import java.time.DayOfWeek;
-import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -16,14 +12,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Garage {
 
     @Id
@@ -41,8 +40,7 @@ public class Garage {
     
     @ElementCollection
     @CollectionTable(name = "garage_opening_hours", joinColumns = @JoinColumn(name = "garage_id"))
-    @MapKeyColumn(name = "day_of_week")
-    private Map<DayOfWeek, List<OpeningTime>> openingHours = new EnumMap<>(DayOfWeek.class);
+    private Set<GarageOpeningTime> openingHours = new HashSet<>();
     
     @OneToMany(mappedBy = "garage", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vehicle> vehicles = new HashSet<>();
