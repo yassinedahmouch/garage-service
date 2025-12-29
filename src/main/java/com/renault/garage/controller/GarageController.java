@@ -53,7 +53,7 @@ public class GarageController {
         return ResponseEntity.noContent().build();
     }
     
-    @GetMapping("/search")
+    @PostMapping("/search")
     public Page<GarageResponseDTO> searchGarages(@RequestBody GarageSearchDTO criteria) {
         return garageService.search(criteria);
     }

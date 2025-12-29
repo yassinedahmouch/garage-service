@@ -36,7 +36,7 @@ import com.renault.garage.entity.OpeningTime;
     
     OpeningTime toEntity(OpeningTimeDTO dto);
     
-    OpeningTimeDTO toDto(OpeningTime entity);
+    OpeningTimeDTO toResponseDto(OpeningTime entity);
 
     @Named("mapOpeningHoursToEntity")
     default Set<GarageOpeningTime> mapOpeningHoursToEntity(

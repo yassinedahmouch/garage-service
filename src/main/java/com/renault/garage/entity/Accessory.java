@@ -1,5 +1,8 @@
 package com.renault.garage.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.renault.garage.enums.AccessoryType;
 
 import jakarta.persistence.Entity;
@@ -8,8 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,8 +33,6 @@ public class Accessory {
     @Enumerated(EnumType.STRING)
     private AccessoryType accessoryType;
     
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
-
+    @ManyToMany(mappedBy = "accessories")
+    private Set<Vehicle> vehicles = new HashSet<>();
 }

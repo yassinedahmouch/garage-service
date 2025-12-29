@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.renault.garage.enums.FuelType;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,8 +13,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +26,7 @@ public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long vehiculeId;
+    private Long vehicleId;
     
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -42,7 +42,12 @@ public class Vehicle {
     @JoinColumn(name = "garage_id")
     private Garage garage;
     
-    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(
+        name = "vehicle_accessory",
+        joinColumns = @JoinColumn(name = "vehicle_id"),
+        inverseJoinColumns = @JoinColumn(name = "accessory_id")
+    )
     private Set<Accessory> accessories = new HashSet<>();
     
     
