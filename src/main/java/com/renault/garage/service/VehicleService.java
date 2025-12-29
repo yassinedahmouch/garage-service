@@ -3,7 +3,6 @@ package com.renault.garage.service;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import com.renault.garage.dto.vehicle.VehicleRequestDTO;
 import com.renault.garage.dto.vehicle.VehicleResponseDTO;

@@ -15,7 +15,6 @@ import com.renault.garage.dto.vehicle.VehicleSearchDTO;
 import com.renault.garage.entity.Brand;
 import com.renault.garage.entity.Garage;
 import com.renault.garage.entity.Vehicle;
-import com.renault.garage.enums.FuelType;
 import com.renault.garage.exception.BadRequestException;
 import com.renault.garage.exception.NotFoundException;
 import com.renault.garage.mapper.VehicleMapper;

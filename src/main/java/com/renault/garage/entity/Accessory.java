@@ -35,4 +35,5 @@ public class Accessory {
     
     @ManyToMany(mappedBy = "accessories")
     private Set<Vehicle> vehicles = new HashSet<>();
+    
 }
