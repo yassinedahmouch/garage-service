@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.renault.garage.dto.vehicle.VehicleEventDTO;
 import com.renault.garage.dto.vehicle.VehicleRequestDTO;
 import com.renault.garage.dto.vehicle.VehicleResponseDTO;
 import com.renault.garage.dto.vehicle.VehicleSearchDTO;
@@ -18,6 +19,7 @@ import com.renault.garage.entity.Vehicle;
 import com.renault.garage.exception.BadRequestException;
 import com.renault.garage.exception.NotFoundException;
 import com.renault.garage.mapper.VehicleMapper;
+import com.renault.garage.messaging.VehiclePublisher;
 import com.renault.garage.repository.BrandRepository;
 import com.renault.garage.repository.GarageRepository;
 import com.renault.garage.repository.VehicleRepository;
@@ -37,6 +39,7 @@ public class VehicleServiceImpl implements VehicleService{
     private final BrandRepository brandRepository;
     private final GarageRepository garageRepository;
     private final VehicleMapper vehicleMapper;
+    private final VehiclePublisher vehiclePublisher;
 
     @Override
     @Transactional
@@ -49,6 +52,15 @@ public class VehicleServiceImpl implements VehicleService{
         garage.addVehicle(vehicle);
         
         vehicleRepository.save(vehicle);
+        
+        vehiclePublisher.publishVehicleAdded(
+                VehicleEventDTO.builder()
+                    .vehicleId(vehicle.getVehicleId())
+                    .brand(brand.getName())
+                    .yearOfManufacture(vehicle.getYearOfManufacture())
+                    .fuelType(vehicle.getFuelType())
+                    .garageId(garage.getGarageId())
+                    .build());
 
         return vehicleMapper.toResponseDto(vehicle);
     }
